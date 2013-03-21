@@ -1,0 +1,88 @@
+% Author: Leo Büttiker bassed on code from Till Tantau
+% Source: Based on The PGF/TikZ manual
+%%\documentclass{article}
+
+\documentclass[a4paper,12pt]{article}
+
+\usepackage{tikz}
+\usetikzlibrary{mindmap,trees}
+
+
+\input{./includes/standard-definitions.tex}
+\input{./includes/standard-exam-summary.tex}
+\input{./includes/asmthm_de.tex}
+
+
+\begin{document}
+\pagestyle{empty}
+\begin{tikzpicture}
+  \path[mindmap,concept color=black,text=white]
+    node[concept] {Analysis}
+    [clockwise from=0]
+    child[concept color=green!50!black,level distance=6cm] {
+      node[concept] {Extremwerte}
+      [clockwise from=100]
+      child { node[concept] {Funktionen in $\R^n$} 
+	 child { node[concept] (hesse){Hesse Matrix } }
+	 child { node[concept] {Gradient $\nabla f = 0$} }
+      }
+      child { node[concept] {Extremstellen berechnen $f'=0$} }
+      child { node[concept] {Minimum und Maximum}  
+	 [clockwise from=45]
+     	child { node[concept] {$f''(x_0)>0$ lokales minima} }
+	child { node[concept] {$f''(x_0)<0$ lokales maxima} }
+	child { node[concept] {$f''(x_0)=0$ Sattelpunkt} } }
+      child { node[concept] {Wendepunkt $f''=0$} }
+      child { node[concept] {Nullpunkt} }
+      child { node[concept] {Grenzwerte von f nach  $\pm\infty$} }
+    }  
+    child[concept color=blue] {
+      node[concept] {Beweise}
+      [clockwise from=-30]
+      child { node[concept] {Vollständige Induktion} }
+      child { node[concept] {...} }
+    }
+    child[concept color=red] { node[concept] {Diff'gleichung} }
+    child[concept color=orange] { node[concept] {Integrale}
+      [clockwise from=220]
+      child { node[concept] {Riemann Summe} }
+      child { node[concept] {Integrale mit Partialbruchzerlegung} }
+    }
+    child[concept color=purple] { node[concept] {Konvergenz}
+      [clockwise from=170]
+      child { node[concept] {Konvergenz-radius} }
+      child { node[concept] {Limes} 
+	[clockwise from=185]
+	 child { node[concept] {$\lim_{n \to \infty} a_n = a$} }
+	 child { node[concept] {$\epsilon$-$\delta$-Kriterium} }
+      }
+      child { node[concept] {Funktionen} 
+	[clockwise from=100]
+	 child { node[concept](pktKonv) {Punktweise Konvergenz} }
+	 child { node[concept](glmKonv) {Gleichmässige Konvergenz} }	
+      }
+      child { node[concept] {Reihen} }
+    }
+    child[concept color=yellow] { node[concept](taylor) {Taylorreihen} };
+
+    \node[annotation,left,left color=purple!50!black] at (pktKonv.west)
+	{
+		$\forall x \in D_f: \lim_{n \to \infty} f_n(x) = a$
+	};
+
+    \node[annotation,right,left color=purple!50!black] at (glmKonv.east)
+	{
+		$\forall x \in D_f \forall \epsilon>0 \exists N \in \N \forall n \geq \N: |f_n(x) - f(x)| < \epsilon$
+	};
+    \node[annotation,left,left color=yellow] at (taylor.north)
+	{
+		$\sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!} (x-a)^n$
+	};
+
+    \node[annotation,left,left color=green!50!black] at (hesse.north)
+      {$H_f = 
+	\begin{pmatrix}
+		\frac{\partial^2 f}{\partial^2 x} & \frac{\partial^2 f}{\partial x\partial y} \\
+		\frac{\partial^2 f}{\partial y\partial x} & \frac{\partial^2 f}{\partial^2 y} 
+	\end{pmatrix}$};
+\end{tikzpicture}\end{document}

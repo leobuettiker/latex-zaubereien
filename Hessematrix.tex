@@ -1,0 +1,81 @@
+% Author: Leo Büttiker bassed on code from Till Tantau
+% Source: Based on The PGF/TikZ manual
+%%\documentclass{article}
+
+\documentclass[a4paper,12pt]{article}
+
+%%Include tikz, for drawing
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+
+\input{./includes/standard-definitions.tex}
+\input{./includes/standard-exam-summary.tex}
+\input{./includes/asmthm_de.tex}
+
+%Overwrite std def
+\geometry{top=3cm,left=5cm,right=5cm}
+
+\begin{document}
+\pagestyle{empty}
+
+\section{Differentialrechnung in $\R^n$}
+
+\subsection{Kritische Punkte}
+Berechnen von lokalen Minima und Maxima. (Achtung: Rand separat betrachten!)\\
+\\
+%\resizebox{!}{15cm}{%
+%tikz graph inspiered by http://slopjong.de/2010/04/10/urinal-manual/
+%content inspired by jörn http://www.youtube.com/watch?v=fdDuptml-2E
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+text width=4cm, text centered, rounded corners, minimum height=4em, minimum width=4.5cm]
+
+\tikzstyle{line} = [draw, -latex']
+
+%from http://tex.stackexchange.com/questions/60585/how-to-highlight-a-single-element-in-a-matrix
+\newcommand\hlight[1]{\tikz[overlay, remember picture,baseline=-\the\dimexpr\fontdimen22\textfont2\relax]\node[rectangle,fill=yellow!50,rounded corners,fill opacity = 0.2,draw,thick,text opacity =1] {$#1$};} 
+
+
+\begin{tikzpicture}[node distance = 3cm, auto]
+% The nodes  
+\node[block] (grad) {Grad(f) = 0 ergibt kritische Punkte ($\nabla f = \vec{0}$)};    
+\node[block, below of=grad] (matrix) {Hesse-Matrix $\operatorname{H}_f$ berechnen};    
+\node[block, below of=matrix] (det) {Determinante Berechnen $a_{11} a_{22} - a_{12} a_{21}$};    
+\node [decision, below of=det, text width=2cm] (detS) {$det < 0$?};
+\node [decision, below of=detS, text width=2cm] (detB) {$det > 0$?};
+\node [decision, below of=detB, text width=2cm] (definit) {$a_{11} > 0$?};
+
+\node[block, right of=detS, node distance=5cm] (sattel) {Sattelpunkt};
+\node[block, right of=detB, node distance=5cm] (unb) {Unbestimmt $det=0$};
+\node[block, right of=definit, node distance=5cm] (max) {Lokales Maximum};
+\node[block, below of=definit] (min) {Lokales Minimum};
+
+\node[rectangle, right of=matrix , node distance=5cm] (hf) {$\operatorname{H}_f=
+\begin{pmatrix}
+\hlight{\frac{\partial^2 f}{\partial^2 x}}&\frac{\partial^2 f}{\partial x\partial y}\\
+\\
+\frac{\partial^2 f}{\partial y\partial x}&\frac{\partial^2 f}{\partial^2 y}
+\end{pmatrix}$};
+
+
+% The connections
+\path [line] (grad) -- node [near start] {$(x_0,y_0)$} (matrix);
+
+\path [line] (matrix) -- node [near start] {$\operatorname{H}_f$} (det);
+\path [line] (det) -- node [near start] {$det$} (detS);
+\path [line] (detS) -- node [near start] {Ja} (sattel);
+\path [line] (detS) -- node [near start] {Nein} (detB);
+
+\path [line] (detB) -- node [near start] {Nein} (unb);
+\path [line] (detB) -- node [near start] {Ja} (definit);
+
+\path [line] (definit) -- node [near start] {Nein} (max);
+\path [line] (definit) -- node [near start] {Ja} (min);
+\end{tikzpicture}
+%}
+
+
+\end{document}
